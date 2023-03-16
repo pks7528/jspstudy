@@ -12,8 +12,8 @@
 
 
 	<servlet>
-		<servlet-class>ex02_urlmapping.HiServlet</servlet-class>
 		<servlet-name>ABC</servlet-name>
+		<servlet-class>ex02_urlmapping.HiServlet</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
