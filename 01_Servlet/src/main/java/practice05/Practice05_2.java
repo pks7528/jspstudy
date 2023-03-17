@@ -19,8 +19,6 @@ public class Practice05_2 extends HttpServlet {
 
 		String model = request.getParameter("model");
 		System.out.println("Practice05_2 : " + model);
-		
-		System.out.println(request.getServletContext().getRealPath("practice05"));
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
