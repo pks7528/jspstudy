@@ -1,27 +1,26 @@
-package ex05_redirect;
+package practice05;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/RedirectServlet1")
-
-public class RedirectServlet1 extends HttpServlet {
+@WebServlet("/Practice05_2")
+public class Practice05_2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// 리다이렉트 이전(첫 번째 요청)의 파라미터 확인
-		// 첫 번째 요청 : /01_Servlet/RedirectServlet1?model=TV
+		// 냉장고 sysout으로 출력
+		request.setCharacterEncoding("UTF-8");
+
 		String model = request.getParameter("model");
-		System.out.println("RedirectServlet1 : " + model);
+		System.out.println("Practice05_2 : " + model);
 		
-		// redirect를 이용해서 다른 서블릿(다른 서버 경로)으로 이동하기
-		response.sendRedirect("/01_Servlet/RedirectServlet2&RedirectServlet2");
-		
+		System.out.println(request.getServletContext().getRealPath("practice05"));
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
