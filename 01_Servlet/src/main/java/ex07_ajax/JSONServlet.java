@@ -1,6 +1,9 @@
 package ex07_ajax;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.management.RuntimeErrorException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,23 +25,41 @@ public class JSONServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// 요청 인코딩
-		request.setCharacterEncoding("UTF-8");
+		try {
 		
-		// 요청 파라미터
-		String name = request.getParameter("name");
-		String strAge = request.getParameter("age");
-		int age = 0;
-		if(strAge != null && strAge.isEmpty() == false) {
-			age = Integer.parseInt(strAge);
+			// 요청 인코딩
+			request.setCharacterEncoding("UTF-8");
+			
+			// 요청 파라미터
+			String name = request.getParameter("name");
+			String strAge = request.getParameter("age");
+			int age = 0;
+			if(strAge != null && strAge.isEmpty() == false) {
+				age = Integer.parseInt(strAge);
+			}
+			
+			
+			// 응답할 JSON 데이터
+			JSONObject obj = new JSONObject();
+			obj.put("name", name);
+			obj.put("age", age);
+			
+			System.out.println(obj.toString());		// {"name": "마돈나", "age": 50}
+			
+			// 응답 데이터 타입
+			response.setContentType("application/json; charset=UTF-8");
+			
+			// 출력 스트림 생성
+			PrintWriter out = response.getWriter();
+			
+			// 출력
+			String resData = obj.toString();
+			out.println(resData);	// 텍스트 형식으로 된 JSON 데이터를 응답한다.
+			out.flush();
+			out.close();
+		} catch(RuntimeException e) {
+		
 		}
-		
-		// 응답할 JSON 데이터
-		JSONObject obj = new JSONObject();
-		obj.put("name", name);
-		obj.put("age", age);
-		
-		System.out.println(obj.toString());		// {"name": "마돈나", "age": 50}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,3 +67,13 @@ public class JSONServlet extends HttpServlet {
 	}
 
 }
+
+/*
+	1. 나이 0~100 사이가 아닌 경우
+    응답코드: 600
+    응답메시지: -5살은 잘못된 나이입니다.
+	2. 이름의 길이가 2~6사이가 아닌 경우
+    응답코드: 601
+    응답메시지: 김은 잘못된이름입니다.
+*/
+

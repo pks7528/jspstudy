@@ -12,7 +12,7 @@
 			<input type="text" id="price" placeholder="가격">
 			<button id="btn1">텍스트요청</button>
 		</div>
-			<div id="content1"></div>
+		<div id="content1"></div>
 	</div>
 	<script>
 		$('#btn1').on('click', function(){
@@ -39,7 +39,7 @@
 		<form id="frm_person">
 			<input type="text" name="name" placeholder="이름">
 			<input type="text" name="age" placeholder="나이">
-			<input type="button" id="btn2" value="JSON요청">JSON요청</button>	
+			<input type="button" id="btn2" value="JSON요청"></button>	
 		</form>
 		<div id="content2"></div>			
 	</div>
@@ -50,9 +50,13 @@
 				/* 요청 */
 				type: 'get',
 				url: '/01_Servlet/JSONServlet',
-				data: $('#frm_person').serialize() // form 내부의 모든 입력 요소(name 속성이 파라미터로 인식된다.)
+				data: $('#frm_person').serialize(), // form 내부의 모든 입력 요소(name 속성이 파라미터로 인식된다.)
 				/* 응답 */
-				
+				dataType: 'json',
+				success: (resData)=>{	//resData == '{"name":"마돈나", "age":50"}'
+					$('#content2').append($('<div>').text(resData.name));
+					$('#content2').append($('<div>').text(resData.age));
+				}
 			})		
 		});
 	</script>
