@@ -35,8 +35,8 @@ public class HelloServlet extends HttpServlet {
     	1. 생성자
     		1) 가장 먼저 호출된다.
     		2) 생성자 호출 뒤 자동으로 init() 메소드가 호출된다.
-    		
      */
+	
     public HelloServlet() {
         super();
         System.out.println("생성자 호출");
@@ -108,9 +108,7 @@ public class HelloServlet extends HttpServlet {
 		 			})
 	*/
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		//	POST 메소드를 통해서 넘어온 정보를 모두 doGet() 메소드에 넘긴다. 
-		
 		doGet(request, response);
 	}
 
