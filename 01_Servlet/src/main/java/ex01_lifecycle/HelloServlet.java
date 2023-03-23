@@ -57,8 +57,8 @@ public class HelloServlet extends HttpServlet {
 			2) service() 메소드가 없으면 doGet() 또는 doPost()메소드가 자동으로 호출된다.
 			3) 클라이언트의 요청을 직접 처리할 수 있다.
 			4) 클라이언트의 요청을 직접 처리하지 않으려면 요청에 따라 doGet() 또는 doPost() 메소드를 호출해야 한다.
-			
 	*/
+	
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("service() 호출");
 		
