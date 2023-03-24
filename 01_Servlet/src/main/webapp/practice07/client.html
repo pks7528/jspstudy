@@ -67,7 +67,7 @@
 	
 	<script>
 		$('#btn_translate').on('click', function(){
-			if($('#text').text() == ''){
+			if($('#text').val() == ''){
 				alert('번역할 텍스트를 입력하세요');
 				$('#text').focus();
 				return;
@@ -75,7 +75,7 @@
 			$.ajax({
 				type: 'get',
 				url: '/01_Servlet/PapagoServlet',
-				data: 'source=' + $('#source').val() + '&target=' + $('#target').val() + '&text=' + $('#text').text(),
+				data: 'source=' + $('#source').val() + '&target=' + $('#target').val() + '&text=' + $('#text').val(),
 				dataType: 'json',
 				success: (resData)=>{
 					$('#translatedText').text(resData.message.result.translatedText);

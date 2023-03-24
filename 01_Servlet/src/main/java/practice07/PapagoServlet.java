@@ -1,14 +1,20 @@
 package practice07;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 @WebServlet("/PapagoServlet")
 public class PapagoServlet extends HttpServlet {
@@ -45,7 +51,39 @@ public class PapagoServlet extends HttpServlet {
 		con.setRequestProperty("X-Naver-Client-Id", clientId);
 		con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
 		
+		// Papago API로 보내야하는 파라미터(source, target, text)
+		String params = "source=" + source + "&target=" + target + "&text=" + URLEncoder.encode(text, "UTF-8");
 		
+		// Papago API로 파라미터를 보내기 위해서 출력 스트림 생성
+		con.setDoOutput(true);
+		DataOutputStream dos = new DataOutputStream(con.getOutputStream());
+		
+		// Papago API로 파라미터 보내기
+		dos.write(params.getBytes());
+		dos.flush();
+		dos.close();
+		
+		// Papago API로부터 번역 결과를 받아 올 입력 스트림 생성
+		BufferedReader reader = null;
+		if(con.getResponseCode() == 200) {
+			reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		} else {
+			reader = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+		}
+		
+		// Papago API로부터 번역 결과를 받아서 StringBuilder에 저장
+		StringBuilder sb = new StringBuilder();
+		String line = null;
+		while((line = reader.readLine()) != null) {
+			sb.append(line);
+		}
+		
+		// StringBuilder의 번역 결과를 client.html의 ajax로 보내기
+		response.setContentType("application/json; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println(sb.toString());
+		out.flush();
+		out.close();
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
