@@ -12,9 +12,8 @@
 	<%
 		request.setCharacterEncoding("UTF-8");
 		String model = request.getParameter("model");
-		Optional opt = Optional.ofNullable(request.getParameter("price"));
-		Object strPrice = opt.orElse("0");
-		int price = Integer.parseInt(strPrice.toString());
+		Optional<String> opt = Optional.ofNullable(request.getParameter("price")); 
+		int price = Integer.parseInt(opt.orElse("0"));
 	%>
 
 	<h1>모델 : <%=model%></h1>
