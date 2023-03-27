@@ -9,7 +9,7 @@
 
 	<div>
 		<!-- 파일 첨부폼 필수 속성 : method="post" enctype="multipart/form-data" -->
-		<form id="frm_upload" action="/01_Servlet/UploadServlet" method="post" enctype="multipart/form-data"></form>	
+		<form id="frm_upload" action="/01_Servlet/UploadServlet" method="post" enctype="multipart/form-data">	
 		<div>
 			<label for="uploader">작성자</label>
 			<input type="text" id="uploader" name="uploader">
@@ -22,7 +22,7 @@
 			<button>첨부하기</button>
 			<input type="reset" value="다시작성">
 		</div>
-	
+		</form>
 	</div>
 	<script>
 		$('#filename').on('change', function(){
