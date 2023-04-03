@@ -20,7 +20,7 @@ public class RedirectServlet1 extends HttpServlet {
 		System.out.println("RedirectServlet1 : " + model);
 		
 		// redirect를 이용해서 다른 서블릿(다른 서버 경로)으로 이동하기
-		response.sendRedirect("/01_Servlet/RedirectServlet2&RedirectServlet2");
+		response.sendRedirect("/01_Servlet/RedirectServlet2");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
