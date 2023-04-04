@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 import domain.BoardDTO;
 
 public class BoardDAO {
-	
+
 	// 모든 메소드가 사용할 공통 필드
 	private Connection con;
 	private PreparedStatement ps;
@@ -35,18 +35,17 @@ public class BoardDAO {
 			dataSource = (DataSource)envContext.lookup("jdbc/GDJ61");
 			/*
 				Context context = new InitialContext();
-				dataSource = (DataSource)context.lookup("javaLcomp/env/jdbc/GDJ61");
-     		*/
+				dataSource = (DataSource)context.lookup("java:comp/env/jdbc/GDJ61");
+			*/
 		} catch(NamingException e) {
 			e.printStackTrace();
 		}
 	}
-	
 	public static BoardDAO getInstance() {
 		return dao;
 	}
 	
-	// 자원 (Connection, PreparedStatement, ResultSet) 반납하기
+	// 자원(Connection, PreparedStatement, ResultSet) 반납하기
 	private void close() {
 		try {
 			if(rs != null) rs.close();
@@ -58,14 +57,15 @@ public class BoardDAO {
 	}
 	
 	// 게시글 목록 반환하기
-	public List<BoardDTO> selectBoardList(){
+	public List<BoardDTO> selectBoardList() {
 		
 		// 1. ArrayList 생성
 		List<BoardDTO> boardList = new ArrayList<BoardDTO>();
 		
 		try {
-			// 2. DataSource로부터 Connection 얻어오기
-			con  = dataSource.getConnection();
+			
+			// 2. DataSource로부터 Connection 얻어 오기
+			con = dataSource.getConnection();
 			
 			// 3. 실행할 쿼리문
 			sql = "SELECT BOARD_NO, TITLE, CONTENT, MODIFIED_DATE, CREATED_DATE FROM BOARD ORDER BY BOARD_NO DESC";
@@ -78,7 +78,8 @@ public class BoardDAO {
 			
 			// 6. ResultSet 객체(결과 집합)를 이용해서 ArrayList를 만듬
 			while(rs.next()) {
-				// Step1. Board 테이블의 결과 행(ROW)
+				
+				// Step1. Board 테이블의 결과 행(ROW)을 읽는다.
 				int board_no = rs.getInt("BOARD_NO");
 				String title = rs.getString("TITLE");
 				String content = rs.getString("CONTENT");
@@ -90,8 +91,8 @@ public class BoardDAO {
 				
 				// Step3. BoardDTO 객체를 ArrayList에 추가한다.
 				boardList.add(board);
+				
 			}
-			
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -102,11 +103,14 @@ public class BoardDAO {
 		
 		// 7. ArrayList 반환
 		return boardList;
+		
 	}
 	
 	// 게시글 반환하기
 	public BoardDTO selectBoardByNo(int board_no) {
-		return null;
+		
+		return new BoardDTO(1, "제목", "내용", null, new Date(System.currentTimeMillis()));
+		
 	}
 	
 	// 게시글 삽입하기
@@ -117,8 +121,8 @@ public class BoardDAO {
 		
 		try {
 			
-			// 2. DataSource로부터 Connection 얻어오기
-			con  = dataSource.getConnection();
+			// 2. DataSource로부터 Connection 얻어 오기
+			con = dataSource.getConnection();
 			
 			// 3. 실행할 쿼리문
 			sql = "INSERT INTO BOARD VALUES(BOARD_SEQ.NEXTVAL, ?, ?, NULL, SYSDATE)";
@@ -127,8 +131,8 @@ public class BoardDAO {
 			ps = con.prepareStatement(sql);
 			
 			// 5. 쿼리문에 변수 값 전달하기
-			ps.setString(1, board.getTitle());		// 1번째 물음표(?)에 title 전달하기
-			ps.setString(2, board.getContent());	// 2번째 물음표(?)에 content 전달하기
+			ps.setString(1, board.getTitle());   // 1번째 물음표(?)에 title 전달하기
+			ps.setString(2, board.getContent()); // 2번째 물음표(?)에 content 전달하기
 			
 			// 6. PreparedStatement 객체를 이용해 쿼리문 실행(INSERT문 실행은 executeUpdate 메소드로 한다.)
 			insertResult = ps.executeUpdate();
@@ -142,10 +146,12 @@ public class BoardDAO {
 		
 		// 7. 삽입 결과 반환
 		return insertResult;
+		
 	}
 	
 	// 게시글 수정하기
 	public int updateBoard(BoardDTO board) {
+		
 		return 0;
 	}
 	
@@ -156,29 +162,32 @@ public class BoardDAO {
 		int deleteResult = 0;
 		
 		try {
-			// 2. DataSource로부터 Connection 얻어오기
-			con  = dataSource.getConnection();
+			
+			// 2. DataSource로부터 Connection 얻어 오기
+			con = dataSource.getConnection();
 			
 			// 3. 실행할 쿼리문
-			sql = "DELETE FROM BOARD WHERE BOARD_NO = ? ";
+			sql = "DELETE FROM BOARD WHERE BOARD_NO = ?";
 			
 			// 4. 쿼리문을 실행할 PreparedStatement 객체 생성
 			ps = con.prepareStatement(sql);
 			
 			// 5. 쿼리문에 변수 값 전달하기
-			ps.setInt(1, board_no);		// 물음표(?)에 title 전달하기
+			ps.setInt(1, board_no);   // 1번째 물음표(?)에 board_no 전달하기
 			
 			// 6. PreparedStatement 객체를 이용해 쿼리문 실행(DELETE문 실행은 executeUpdate 메소드로 한다.)
 			deleteResult = ps.executeUpdate();
-		
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally {
 			// 예외 발생 여부와 상관 없이 항상 자원의 반납을 해야 한다.
 			close();
-	
+		}
+		
 		// 7. 삭제 결과 반환
 		return deleteResult;
+		
 	}
-	}
+	
 }
