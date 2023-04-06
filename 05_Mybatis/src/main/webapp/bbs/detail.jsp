@@ -16,7 +16,7 @@
 	}
 	function goRemove(){
 		if(confirm('삭제??')){
-			location.href = '${contextPath}/remove.do?bbsNo=${bbs.bbsNo}';
+			$('#frm_remove').submit();
 		} 
 	}
 	function goList(){
@@ -40,6 +40,9 @@
 		<input type="button" value="편집" onclick="goEdit()">
 		<input type="button" value="삭제" onclick="goRemove()">
 		<input type="button" value="목록" onclick="goList()">
+		<form id="frm_remove" method="post" action="${contextPath}/remove.do">
+			<input type="hidden" name="bbsNo" value="${bbs.bbsNo}">
+		</form>
 	</div>
 	
 </body>
