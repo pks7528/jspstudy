@@ -29,6 +29,4 @@ public class BbsTest {
 		bbs.setContent("테스트내용");
 		assertEquals(1, dao.insertBbs(bbs));
 	}
-	
-
 }
