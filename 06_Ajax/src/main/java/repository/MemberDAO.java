@@ -61,12 +61,12 @@ public class MemberDAO {
 	// 삽입
 	public int insertMember(Member member) {
 		SqlSession ss = factory.openSession(false);
-		int isnertResult = ss.insert(NS + "insertMember", member);
-		if(isnertResult == 1) {
+		int insertResult = ss.insert(NS + "insertMember", member);
+		if(insertResult == 1) {
 			ss.commit();
 		}
 		ss.close();
-		return isnertResult;
+		return insertResult;
 	}
 	
 	// 수정
@@ -91,10 +91,4 @@ public class MemberDAO {
 		return deleteResult;
 		
 	}
-	
-	
-	
-	
-	
-	
 }
